@@ -1,3 +1,5 @@
+BEGIN;
+
 -- TWORZENIE GŁÓWNEJ TABELI Z PRÓBKAMI --
 CREATE TABLE IF NOT EXISTS public.archiwum_tb (
     id serial PRIMARY KEY,
@@ -38,3 +40,22 @@ CREATE TABLE IF NOT EXISTS public.wyroby_tb (
     nazwa varchar(255) NOT NULL,
     wydzial varchar(255) NOT NULL
 );
+
+-- TWORZENIE KONTA GŁÓWNEGO ADMINA PRZY STARCIE --
+INSERT INTO
+    public.pracownicy_tb (
+        imie,
+        nazwisko,
+        email,
+        haslo,
+        rola
+    )
+VALUES (
+        'admin',
+        'admin',
+        'admin@admin.pl',
+        'archiwum',
+        'admin'
+    ) ON CONFLICT (email) DO NOTHING;
+
+COMMIT;
