@@ -1,7 +1,7 @@
 # system-archiwum-chemicznego
 System zarządzania archiwum chemicznego.
 Kod aplikacji 
-### nie jest komplenty
+### nie jest kompletny
 Aby uruchomić należy zainstalować:
 - PostgreSQL
 Utworzyć tabele (zapytania w /postgresql-scripts) dla próbek, pracowników, surowców, wyrobów.
