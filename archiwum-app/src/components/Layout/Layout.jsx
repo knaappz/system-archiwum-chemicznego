@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link, Outlet, useLocation } from 'react-router-dom';
 import "./Layout.css";
 
@@ -72,9 +72,7 @@ const Layout = () => {
                     </>
                 )}
 
-
                 <div className='logout'>
-
                     <p>
                         {role === 'pracownik' ? (
                             `${(user.email) || 'Pracownik'}`

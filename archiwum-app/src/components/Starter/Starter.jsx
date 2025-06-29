@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import "./Starter.css";
 
 const Starter = () => {
@@ -58,7 +58,7 @@ const Starter = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <p>Zresetuj hasło. <i>'klick'</i></p>
+                <Link to="/app/change-pswrd">Zresetuj hasło...</Link>
 
                 <br />
                 <button onClick={handleEmployeeLogin}>Zaloguj</button>

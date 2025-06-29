@@ -4,13 +4,13 @@ Kod aplikacji
 ### nie jest kompletny
 Aby uruchomić należy zainstalować:
 - PostgreSQL
-Utworzyć tabele (zapytania w /postgresql-scripts) dla próbek, pracowników, surowców, wyrobów.
+- Utworzyć tabele -> zapytania znajdują się w /postgresql-scripts
 
 Potem uruchomić w folderze serwera:
-- cd server
+- cd /server
 - npm install
 
 W folderze frontendu:
-- cd archiwum-app
+- cd /archiwum-app
 - npm install
 

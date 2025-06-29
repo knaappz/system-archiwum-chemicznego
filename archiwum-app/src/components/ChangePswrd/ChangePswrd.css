@@ -1,0 +1,25 @@
+.change-pswrd {
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    gap: 1rem;
+    background: var(--blue-table);
+    padding: 1rem;
+    color: #FFF;
+}
+
+.change-pswrd a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.change-pswrd button {
+    padding: .5rem;
+    font-size: 16px;
+}
+
+.change-pswrd p {
+    text-align: center;
+}

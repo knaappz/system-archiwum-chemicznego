@@ -24,6 +24,12 @@
     width: 40%;
 }
 
+.lefty a {
+    text-decoration: underline;
+    color: #000;
+    margin: 1rem;
+}
+
 .starter-page button {
     padding: 13px;
     border: 1px solid #ddd;
