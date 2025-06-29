@@ -1,0 +1,12 @@
+body {
+    margin: 0 auto;
+    font-family: Inter;
+}
+
+:root {
+    --blue-table: #007bff;
+    --lightblue-table: #62aeff;
+    --darkerblue-table: #abbdcf;
+    --lighterblue: #f9fbff;
+    --home-btn: #48a0ff;
+}

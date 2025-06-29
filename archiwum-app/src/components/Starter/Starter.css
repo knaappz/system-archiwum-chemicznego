@@ -1,0 +1,43 @@
+.starter-page {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.starter-page h3 {
+    color: #222222;
+}
+
+.lefty,
+.righty {
+    margin: 25vh auto;
+    width: 50%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: rgb(174, 204, 255);
+}
+
+.lefty input {
+    width: 40%;
+}
+
+.starter-page button {
+    padding: 13px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: border-color 0.3s;
+}
+
+.title {
+    background-color: var(--blue-table);
+    height: 100vh;
+}
+
+.title h2 {
+    color: #fff;
+}

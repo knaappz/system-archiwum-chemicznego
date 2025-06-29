@@ -1,0 +1,70 @@
+[
+    {
+        "name": "Naftalen",
+        "wydzial": "BergerCom"
+    },
+    {
+        "name": "Fenol",
+        "wydzial": "BergerCom"
+    },
+    {
+        "name": "DMAPA",
+        "wydzial": "BergerCom"
+    },
+    {
+        "name": "Soda kaustyczna",
+        "wydzial": "SodeXPolska"
+    },
+    {
+        "name": "Wodorotlenek potasu",
+        "wydzial": "SodeXPolska"
+    },
+    {
+        "name": "Sól",
+        "wydzial": "SodeXPolska"
+    },
+    {
+        "name": "Benzen",
+        "wydzial": "PetroChem"
+    },
+    {
+        "name": "Glicenryna",
+        "wydzial": "PetroChem"
+    },
+    {
+        "name": "Glikol",
+        "wydzial": "PetroChem"
+    },
+    {
+        "name": "Fenol",
+        "wydzial": "UltimaAgro"
+    },
+    {
+        "name": "Kwas siarkowy",
+        "wydzial": "UltimaAgro"
+    },
+    {
+        "name": "Siarka granulowana",
+        "wydzial": "UltimaAgro"
+    },
+    {
+        "name": "Glikol",
+        "wydzial": "BASF"
+    },
+    {
+        "name": "Gliceryna",
+        "wydzial": "BASF"
+    },
+    {
+        "name": "Izopropanol",
+        "wydzial": "BASF"
+    },
+    {
+        "name": "Alkohol laurylowy",
+        "wydzial": "BASF"
+    },
+    {
+        "name": "Alkohol izotridecylowy",
+        "wydzial": "BASF"
+    }
+]

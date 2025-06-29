@@ -1,0 +1,1 @@
+-- zamieścić komendy do tworzenia bazy i tabel --

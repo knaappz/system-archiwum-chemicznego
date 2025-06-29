@@ -1,0 +1,113 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--lighterblue);
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.256);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.add-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.add-container label {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.add-container button {
+    width: 20rem;
+    padding: 1rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.groups {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+h2 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #333;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #fff;
+}
+
+.add-container button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+.numbers,
+.deadline-date {
+    width: 100%;
+    display: flex;
+    gap: .5rem;
+}
+
+.numbers label {
+    margin: 0;
+}
+
+.deadline-date label {
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+}
