@@ -1,10 +1,12 @@
 # system-archiwum-chemicznego
 System zarządzania archiwum chemicznego.
 Kod aplikacji 
-### nie jest kompletny
+### Szybka instrukcja
 Aby uruchomić należy zainstalować:
 - PostgreSQL
-- Utworzyć tabele -> zapytania znajdują się w /postgresql-scripts
+- Utworzyć baze z pliku backup: archiwum_db_script
+- Lub z plików tworzenia tabel: 
+    database-init.sql, database-tables.sql
 
 Potem uruchomić w folderze serwera:
 - cd /server
