@@ -4,7 +4,7 @@ const NoPage = () => {
     return (
         <section className='nopage'>
             <h1>Błąd ładowania strony...</h1>
-            <p>Wróć na <Link to="/">strone główną</Link>...
+            <p>Wróć na <Link to="/app">strone główną</Link>...
             </p>
             <img src="/assets/death.png" alt="" />
         </section>

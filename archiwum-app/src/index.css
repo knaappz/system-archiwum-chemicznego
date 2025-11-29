@@ -4,9 +4,25 @@ body {
 }
 
 :root {
-    --blue-table: #007bff;
+    --blue-table: #3999ff;
     --lightblue-table: #62aeff;
+    --sky-blue: #c8e3ff;
     --darkerblue-table: #abbdcf;
     --lighterblue: #f9fbff;
     --home-btn: #48a0ff;
+    --delete-btn-before: rgb(211, 202, 202);
+    --delete-btn: rgba(159, 0, 0, 0.292);
+    --home-btn: #e4f1ff;
+
+}
+
+h1 {
+    font-size: 1.3rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    margin: .5rem 0;
 }

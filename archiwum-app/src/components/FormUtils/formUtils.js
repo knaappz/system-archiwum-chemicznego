@@ -19,7 +19,7 @@ export const calculateEndDate = (startDate, period) => {
     return moment(startDate).add(daysToAdd, "days").format("YYYY-MM-DD");
 };
 
-// Funkcja obsługująca zmiany w formularzu
+// OBSŁUGA ZMIAN W FORMULARZU
 export const handleFormChange = (formData, setFormData, e) => {
     setFormData({
         ...formData,

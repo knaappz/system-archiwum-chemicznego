@@ -1,23 +1,116 @@
-.home-page {
+.home-page,
+.home-title {
     display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 90rem;
+    margin: 0 auto;
+}
 
+.home-analitics {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
 }
 
 .chart-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 110rem;
+    width: 90rem;
     min-width: 300px;
-    margin: 1rem auto;
     min-height: 20rem;
     max-height: 40rem;
     background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    border-radius: .5rem;
     padding: 1rem;
     box-sizing: border-box;
     transition: width 0.3s ease;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem;
+}
+
+.hello-user {
+    text-align: center;
+}
+
+.chart-row {
+    display: flex;
+}
+
+.sample-counter {
+    height: 4rem;
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 20px;
+    border-radius: .5rem;
+}
+
+.climate {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: .5rem 0;
+    gap: .5rem;
+}
+
+.climate .room {
+    background-color: rgb(226, 255, 226);
+    padding: 1rem;
+    border-radius: .5rem;
+    width: 100%;
+}
+
+.room p {
+    margin: .3rem;
+}
+
+.two-sides {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.two-sides button {
+    width: 40rem;
+    height: 8rem;
+    font-size: 22px;
+    background-color: var(--home-btn);
+    border: 1px solid rgb(210, 210, 210);
+    border-radius: 1rem;
+    padding: 1rem;
+    transition: .2s;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: Inter;
+    font-weight: 500;
+    color: #545454;
+}
+
+.two-sides button:hover {
+    background-color: #d6eaff;
+}
+
+.home-page a,
+.home-title a {
+    text-decoration: none;
+    width: fit-content;
+    padding: 0;
+    margin: 1rem;
 }
 
 @media (max-width: 768px) {

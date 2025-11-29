@@ -1,40 +1,58 @@
-.dialog-edit {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 2rem;
-    color: #000;
-    box-shadow: 0px 6px 13px rgba(0, 0, 0, 0.503);
-    z-index: 1000;
-    border: 1px solid #000;
-    border-radius: 10px;
-    width: 40rem;
-}
-
-.dialog-delete {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 2rem;
-    color: #000;
-    box-shadow: 0px 6px 13px rgba(0, 0, 0, 0.503);
-    z-index: 1000;
-    border: 1px solid #000;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-}
-
+/* === Ogólna warstwa akcji (overlay) === */
 .action {
     position: fixed;
     top: 50%;
     left: 50%;
 }
 
+/* === Przyciemnienie tła (overlay) === */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 900;
+}
+
+/* === Modal edycji === */
+.dialog-edit {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 10px;
+    box-shadow: 0px 6px 13px rgba(0, 0, 0, 0.503);
+    z-index: 1000;
+}
+
+/* === Modal usuwania === */
+.dialog-delete {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1.5rem;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0px 6px 13px rgba(0, 0, 0, 0.195);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+/* === Formularz edycji w modalu usuwania === */
 .dialog-delete .edit-component form {
     width: 30rem;
     display: flex;
@@ -42,15 +60,17 @@
     gap: 1.5rem;
 }
 
+/* === Pola tekstowe === */
 .uwagi-text {
     font-size: 1rem;
     resize: none;
 }
 
+/* === Checkbox dostępności === */
 .dostepnosc-checkbox {
     display: flex;
     flex-direction: row;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .dostepnosc-checkbox input {
@@ -58,13 +78,12 @@
     margin: 0 1rem;
 }
 
+/* === Przyciski w edycji === */
 .buttons-edit {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    height: 100%;
     width: 100%;
-    border: 0;
 }
 
 .buttons-edit button {
@@ -72,13 +91,14 @@
     width: 100%;
     height: 40px;
     border: none;
+    border-radius: 10px;
     cursor: pointer;
     color: white;
     font-size: 14px;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
 }
 
 .buttons-edit .save-btn {
@@ -89,30 +109,36 @@
     background-color: rgb(210, 64, 57);
 }
 
-.buttons-row button {
-    flex: 1;
+/* === Przycisk edycji/usuwania w kolumnie === */
+.del-buttons-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.del-buttons-row button {
     width: 100%;
     height: 40px;
     border: none;
+    border-radius: 10px;
     cursor: pointer;
     color: white;
     font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: var(--darkerblue-table);
     padding: 0;
 }
 
+.delete-btn {
+    margin-bottom: 1rem;
+}
+
+/* === Przycisk usuwania  === */
 .delete-btn img {
     width: 1.5rem;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
 }
 
-.buttons-row button:hover {
-    background-color: var(--lightblue-table);
-}
-
+/* === Resetowanie marginesów paragrafów w przyciskach === */
 .buttons-row p {
     padding: 0;
 }

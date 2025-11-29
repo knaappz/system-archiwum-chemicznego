@@ -1,25 +1,36 @@
 .change-pswrd {
-    margin: 2rem auto;
+    background-color: #e3e5ea;
+    width: 40rem;
     display: flex;
     flex-direction: column;
-    width: 30rem;
-    gap: 1rem;
-    background: var(--blue-table);
-    padding: 1rem;
-    color: #FFF;
+    margin: 6rem auto;
+    padding: 1.5rem 1rem 4rem 1rem;
+    gap: 1.5rem;
+    border-radius: 1rem;
 }
 
 .change-pswrd a {
-    color: #fff;
+    padding: 0;
+    margin: .5rem 0;
     text-decoration: none;
     font-weight: bold;
 }
 
 .change-pswrd button {
-    padding: .5rem;
+    padding: 1rem;
     font-size: 16px;
 }
 
-.change-pswrd p {
-    text-align: center;
+.change-pswrd button {
+    width: 100%;
+    background-color: #4e97e6;
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
 }

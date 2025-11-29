@@ -1,70 +1,64 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import './Home.css'
-import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    Tooltip,
-    CartesianGrid,
-    ResponsiveContainer
-} from "recharts";
+import './Home.css';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-    const [data, setData] = useState([]);
-    const [chartData, setChartData] = useState([]);
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
-    const fetchData = async () => {
-        try {
-            const response = await axios.get("http://localhost:8080/api/data");
-            // console.log(`Pobrano dane!`)
-            setData(response.data);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
-
+    // Pobieranie użytkownika
     useEffect(() => {
-        fetchData();
+        const token = localStorage.getItem('authToken');
+        if (!token) return;
+        fetch("http://localhost:8080/api/me", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+            .then((res) => res.ok ? res.json() : null)
+            .then((data) => setUser(data))
+            .catch((err) => console.error("Błąd pobierania użytkownika:", err));
     }, []);
 
-    useEffect(() => {
-        const counts = data.reduce((acc, item) => {
-            const wydzial = item.wydzial || "Brak wydziału";
-            acc[wydzial] = (acc[wydzial] || 0) + 1;
-            return acc;
-        }, {});
+    // Funkcja imienia
+    const getDisplayName = () => {
+        const name = user?.imie
+            ? user.imie
+            : user?.email
+                ? user.email.split('@')[0]
+                : 'nieznany';
 
-        const formattedData = Object.entries(counts).map(([wydzial, count]) => ({
-            wydzial,
-            count
-        }));
-        setChartData(formattedData);
-    }, [data]);
+        return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    };
+
+    // Funkcja nawigacji
+    const handleNavigate = (path) => {
+        navigate(path);
+    };
 
     return (
         <section className="home-page">
-
-            <div className="chart-wrapper">
-                {chartData.length === 0 ? (
-                    <p className="empty-message">Brak dostępnych próbek w magazynie.</p>
-                ) : (
-                    <>
-                        <p>Ilość dostępnych próbek (według wydziałów)</p>
-                        <ResponsiveContainer>
-                            <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="wydzial" />
-                                <YAxis allowDecimals={false} />
-                                <Tooltip />
-                                <Bar dataKey="count" fill="#8884d8" barSize={40} />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </>
-                )}
+            <h1 className='hello-user'>Dzień dobry, {getDisplayName()}!</h1>
+            <div className='home-container'>
+                <div className='two-sides'>
+                    <button
+                        onClick={() => handleNavigate('/app/analitics')}>
+                        Panel analityczny
+                    </button>
+                    <button
+                        onClick={() => handleNavigate('/app/standards')}>
+                        Standardy <br /> przechowywania
+                    </button>
+                    <button
+                        onClick={() => handleNavigate('/app/knowledge')}>Baza wiedzy
+                    </button>
+                    <button
+                        onClick={() => handleNavigate('/change-pswrd')}>Problemy techniczne <br />lub zmiana hasła?
+                    </button>
+                </div>
             </div>
-        </section >
+        </section>
     );
 };
 

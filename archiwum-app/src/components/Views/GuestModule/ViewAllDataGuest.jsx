@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../Views/ViewAllTable.css";
-import { SearchBars } from "./SearchBars/SearchBars";
-import Edit from "../Edit/Edit";
+import "../ViewAllTable.css"
+import { SearchBars } from "../SearchBars/SearchBars";
 import moment from 'moment'
+import GuestModule from "./GuestModule";
 
-const ViewAllData = () => {
+const ViewAllDataGuest = () => {
     const [data, setData] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [editItem, setEditItem] = useState();
-    const [userRole, setUserRole] = useState('');
     const [sortOrder, setSortOrder] = useState('desc');
     const [sortColumn, setSortColumn] = useState('data_archiwizacji');
+    const [selectedSample, setSelectedSample] = useState(null);
     const [filters, setFilters] = useState({
         id: '',
         grupa: '',
@@ -34,8 +32,11 @@ const ViewAllData = () => {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-        fetchData();
     };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     // FILTRY
     const handleFilterChange = (field, value) => {
@@ -47,39 +48,6 @@ const ViewAllData = () => {
             String(item[key] ?? '').toLowerCase().includes(filters[key].toLowerCase())
         )
     );
-
-    // EDYCJA
-    const handleEditSubmit = async (updatedData) => {
-        try {
-            await axios.put(`http://localhost:8080/api/data/${updatedData.id}`, updatedData);
-            fetchData();
-            closeModal();
-        } catch (error) {
-            console.error("Błąd podczas edycji próbki:", error);
-        }
-    };
-
-    // EDYCJA POTWIERDZENIE
-    const confirmEdit = (id) => {
-        const itemToEdit = data.find(item => item.id === id);
-        setEditItem(itemToEdit);
-        setShowModal(true);
-    };
-
-    // ZAMKNIECIE MODALA
-    const closeModal = () => {
-        setShowModal(false);
-        setEditItem(null);
-    };
-
-    // TYMCZASOWE LOGOWANIE I OGRANICZENIA
-    useEffect(() => {
-        fetchData();
-        const role = localStorage.getItem('userRole');
-        if (role) {
-            setUserRole(role);
-        }
-    }, []);
 
     // SORTOWANIE PO DACIE
     const handleSort = (column) => {
@@ -130,7 +98,7 @@ const ViewAllData = () => {
                     <tbody>
                         {filteredData.length > 0 ? (
                             sortedData.map((item) => (
-                                <tr key={item.id} onClick={() => userRole !== 'gosc' && confirmEdit(item.id)} className="clickable-row">
+                                <tr key={item.id} className="clickable-row" onClick={() => setSelectedSample(item)}>
                                     <td title={item.id} >{item.id}</td>
                                     <td title={item.grupa} className="sample-names random-column">{item.grupa}</td>
                                     <td title={item.nazwa} className="sample-names">{item.nazwa}</td>
@@ -153,19 +121,17 @@ const ViewAllData = () => {
                         )}
                     </tbody>
                 </table>
-            </section>
-            {showModal && (
-                <div className="action modal-overlay">
-                    <Edit
-                        sampleData={editItem}
-                        onClose={closeModal}
-                        onSubmit={handleEditSubmit}
-                        onDelete={fetchData}
+
+                {selectedSample && (
+                    <GuestModule
+                        sample={selectedSample}
+                        onClose={() => setSelectedSample(null)}
                     />
-                </div>
-            )}
+                )}
+
+            </section>
         </section>
     );
 };
 
-export default ViewAllData;
+export default ViewAllDataGuest;

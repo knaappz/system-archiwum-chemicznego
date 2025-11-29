@@ -16,3 +16,62 @@
     color: #000;
     font-weight: 600;
 }
+
+/* style ogólne */
+
+/* === app.css === */
+/* Ogólne style dostępne w całej aplikacji */
+
+/* Reset marginesów dla paragrafów w przyciskach */
+.buttons-row p {
+    padding: 0;
+}
+
+/* Stylizacja nazw */
+.sample-names {
+    text-transform: capitalize;
+}
+
+.company-names {
+    text-transform: uppercase;
+}
+
+/* Przycisk usuwania (uniwersalny styl) */
+.delete-btn {
+    padding: 0.5rem 1rem;
+    background-color: #7d0f1857;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #48090e57;
+}
+
+/* Input i select - globalne */
+input,
+select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #fff;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #333;
+}

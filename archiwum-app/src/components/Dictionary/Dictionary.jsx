@@ -14,9 +14,7 @@ const Dictionary = () => {
     const fetchData = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/api/${view}`);
-
             setData(response.data);
-
         } catch (err) {
             console.error('Błąd przy pobieraniu danych:', err);
         }
@@ -88,11 +86,11 @@ const Dictionary = () => {
                 </div>
 
                 <form className='dictionary-form' onSubmit={handleSubmit}>
-                    <p>Dodaj nowe dane do słownika:</p>
+
                     <input
                         type="text"
                         name="nazwa"
-                        placeholder={`nazwa ${view === 'surowce' ? 'surowca' : 'wyrobu'}`}
+                        placeholder={`Nazwa ${view === 'surowce' ? 'surowca' : 'wyrobu'}`}
                         value={formData.nazwa}
                         onChange={handleChange}
                         required
@@ -100,7 +98,7 @@ const Dictionary = () => {
                     <input
                         type="text"
                         name="wydzial"
-                        placeholder="wydział/dostawca"
+                        placeholder="Wydział/dostawca"
                         value={formData.wydzial}
                         onChange={handleChange}
                         required
@@ -120,26 +118,31 @@ const Dictionary = () => {
             <table>
                 <thead>
                     <tr>
-                        <th>Akcje</th>
                         <th>Nazwa</th>
-                        <th>Wydział</th>
+                        <th>Wydział/Dostawca</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data
-                        .filter(item =>
+                    {
+                        data.filter(item =>
                             item.nazwa.toLowerCase().includes(searchTerm) ||
                             item.wydzial.toLowerCase().includes(searchTerm)
-                        )
-                        .map((item, index) => (
-                            <tr key={index}>
-                                <td className='action-dictionary'>
-                                    <button className='dictionary-delete' onClick={() => confirmDelete(item.id, item)}>Usuń rekord</button>
-                                </td>
-                                <td className='sample-names'>{item.nazwa}</td>
-                                <td className='company-names'>{item.wydzial}</td>
+                        ).length === 0 ? (
+                            <tr>
+                                <td colSpan="2">Brak wyników...</td>
                             </tr>
-                        ))}
+                        ) : (
+                            data.filter(item =>
+                                item.nazwa.toLowerCase().includes(searchTerm) ||
+                                item.wydzial.toLowerCase().includes(searchTerm)
+                            ).map((item, index) => (
+                                <tr key={index} onClick={() => confirmDelete(item.id, item)}>
+                                    <td className='sample-names'>{item.nazwa}</td>
+                                    <td className='company-names'>{item.wydzial}</td>
+                                </tr>
+                            ))
+                        )
+                    }
 
                 </tbody>
             </table>
@@ -148,10 +151,10 @@ const Dictionary = () => {
                     <div className="dialog-delete">
                         <p>
                             Czy na pewno chcesz usunąć z słownika: <br />
-                            substancje: {selectedItem?.nazwa.charAt(0).toUpperCase() + selectedItem?.nazwa.slice(1)}, <br />
+                            substancje: {selectedItem?.nazwa.charAt(0).toUpperCase() + selectedItem?.nazwa.slice(1)} <br />
                             dostawca: {selectedItem?.wydzial.toUpperCase()}
                         </p>
-                        <div className="buttons-row">
+                        <div className="del-buttons-row">
                             <button onClick={handleDelete}>Tak</button>
                             <button onClick={closeModal}>Nie</button>
                         </div>

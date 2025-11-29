@@ -1,7 +1,10 @@
 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+    margin: 3rem auto 0;
+    padding: 2rem;
     background-color: var(--lighterblue);
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.256);
     border-radius: 8px;
@@ -13,7 +16,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .add-container label {
@@ -28,24 +31,11 @@
     padding: 1rem;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .groups {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-}
-
-
-h2 {
-    text-align: center;
-    color: #007bff;
-    margin-bottom: 20px;
 }
 
 label {
@@ -103,6 +93,18 @@ button:hover {
 
 .deadline-date label {
     margin: 0;
+}
+
+.message {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5rem 0;
+    border-radius: 5px;
+    font-weight: bold;
+    color: green;
+    text-transform: capitalize;
 }
 
 @media (max-width: 600px) {

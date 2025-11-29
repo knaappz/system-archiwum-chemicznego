@@ -16,6 +16,7 @@ const InneSelect = ({ value, onChange }) => {
                 type="text"
                 name="nazwa"
                 value={value}
+                maxLength={50}
                 onChange={handleChange}
                 placeholder="Wpisz nazwę substancji..."
                 required

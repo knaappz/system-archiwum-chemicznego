@@ -80,20 +80,19 @@ const Edit = ({ sampleData, onClose, onSubmit, onDelete }) => {
     };
 
     return (
-        <section>
+        <section className="dialog-edit">
             <button className="delete-btn" onClick={(e) => {
                 e.stopPropagation();
                 confirmDelete(formData.id);
             }}>
-                <img src="/assets/icons/bin.png" alt="Usuń" />
+                <img src="/assets/icons/bin.png" alt="Usuń" title="Usuń permanentnie" />
             </button>
-
             <form
                 autoComplete="off"
                 className="add-container"
                 onSubmit={handleSubmit}
             >
-                <h3>Edytujesz: {formData.nazwa} | id: {formData.id}</h3>
+                <div><h3>Edytujesz: </h3>{formData.nazwa} | id: {formData.id}</div>
                 <div className="numbers">
                     <label>
                         Numer partii:
@@ -135,7 +134,6 @@ const Edit = ({ sampleData, onClose, onSubmit, onDelete }) => {
                             value={formData.data_archiwizacji}
                             onChange={handleChange}
                         />
-
                     </label>
                 </div>
                 <label>
@@ -152,7 +150,6 @@ const Edit = ({ sampleData, onClose, onSubmit, onDelete }) => {
                         onChange={handleChange}
                     />
                 </label>
-
                 <div className="dostepnosc-checkbox">
                     Dostępność próbki:
                     <input
@@ -167,8 +164,6 @@ const Edit = ({ sampleData, onClose, onSubmit, onDelete }) => {
                         }
                     />
                 </div>
-
-
                 <label>
                     Uwagi
                     <textarea
@@ -180,20 +175,17 @@ const Edit = ({ sampleData, onClose, onSubmit, onDelete }) => {
                         rows={4}
                     />
                 </label>
-
-
                 <div className="buttons-edit">
                     <button className="save-btn " type="submit">Zapisz zmiany</button>
                     <button className="cancel-btn" type="button" onClick={onClose}>Anuluj</button>
                 </div>
             </form>
-
             {showModal && (
                 <div className="action">
                     <div className="dialog-delete">
                         <>
-                            <p>Czy na pewno chcesz usunąć tę próbkę?</p>
-                            <div className="buttons-row">
+                            <p>Czy na pewno chcesz <b>usunąć</b> tę próbkę?</p>
+                            <div className="del-buttons-row">
                                 <button onClick={handleDelete}>Tak</button>
                                 <button onClick={closeModal}>Nie</button>
                             </div>
@@ -201,9 +193,7 @@ const Edit = ({ sampleData, onClose, onSubmit, onDelete }) => {
                     </div>
                 </div>
             )}
-
         </section>
-
     );
 };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link, Outlet, useLocation } from 'react-router-dom';
 import "./Layout.css";
 
@@ -6,62 +6,103 @@ const Layout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [role, setRole] = useState(null);
+    const [user, setUser] = useState(null);
+
+    const fetchUserData = async () => {
+        const token = localStorage.getItem('authToken');
+
+        // Gdy jesteśmy goścmi dostajemy tymczasową role "gosc".
+        if (!token) {
+            const guestRole = localStorage.getItem('userRole');
+            if (guestRole === 'gosc') {
+                setRole('gosc');
+                return;
+            }
+            navigate('/');
+            return;
+        }
+
+        // Jeśli jesteśmy pracownikiem, adminem to dokonuje się autoryzacja.
+        try {
+            const res = await fetch("http://localhost:8080/api/me", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (!res.ok) {
+                throw new Error("Unauthorized");
+            }
+
+            const data = await res.json();
+            setUser(data);
+            setRole(data.rola);
+        } catch (err) {
+            console.error("Błąd autoryzacji", err);
+            localStorage.removeItem('authToken');
+            navigate('/');
+        }
+    };
 
     useEffect(() => {
-        const storedRole = localStorage.getItem('userRole');
+        fetchUserData();
+    }, []);
 
-        if (!storedRole) {
-            navigate('/');
-        } else {
-            setRole(storedRole);
+    useEffect(() => {
+        if (role === 'gosc' && location.pathname !== '/app/view-all-data-guest') {
+            navigate('/app/view-all-data-guest');
+        }
+    }, [role, location.pathname, navigate]);
 
-            if (
-                storedRole === 'gosc' &&
-                location.pathname !== '/app/view-all-data'
-            ) {
-                navigate('/app/view-all-data');
+    // Tymczasowo zostanie stary logout
+    // const handleLogOut = () => {
+    //     localStorage.removeItem('authToken');
+    //     localStorage.removeItem('userRole');
+    //     setRole(null);
+    //     navigate('/');
+    // };
+
+    const handleLogOut = async () => {
+        const token = localStorage.getItem('authToken');
+
+        if (token) {
+            try {
+                await fetch("http://localhost:8080/api/logout", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+            } catch (err) {
+                console.error("Błąd podczas wylogowania", err);
             }
         }
-    }, [navigate, location]);
 
-    const handleLogOut = () => {
+        localStorage.removeItem('authToken');
         localStorage.removeItem('userRole');
-        localStorage.removeItem('userData');
-        setRole(null);
         navigate('/');
     };
 
     const handleAdminPanel = () => {
         navigate('/app/admin')
-    }
-
-    const getRoleName = (role) => {
-        switch (role) {
-            case 'admin': return 'Admin';
-            case 'pracownik': return 'Pracownik';
-            case 'gosc': return 'Gość';
-            default: return 'Nieznany';
-        }
     };
 
-    const user = JSON.parse(localStorage.getItem('userData'));
-
     return (
-        <>
-            <section className='header'>
-                {/* Linki dostępne tylko dla pracownika */}
+        <section>
+            <section id='header'>
                 {(role === 'pracownik' || role === 'admin') && (
                     <>
-                        <Link className='home-btn' to="/app">
-                            <img src="/assets/icons/sample.png" alt="noimg" />
-                            <p>Strona główna</p>
-                        </Link>
+                        <div className="archive-menu">
+                            <Link className="home-btn" to="/app">
+                                <img src="/assets/icons/sample.png" alt="noimg" />
+                                <p>Archiwum	</p>
+                            </Link>
+                        </div>
                         <Link to="/app/add-data">Dodaj pozycje</Link>
                     </>
                 )}
 
-
-                {/* Widoczny dla wszystkich */}
                 <Link to="/app/view-all-data">Wszystkie próbki</Link>
 
                 {(role === 'pracownik' || role === 'admin') && (
@@ -73,20 +114,13 @@ const Layout = () => {
                 )}
 
                 <div className='logout'>
-                    <p>
-                        {role === 'pracownik' ? (
-                            `${(user.email) || 'Pracownik'}`
-                        ) : role === 'gosc' ? (
-                            'Zalogowano jako: Gość'
-                        ) : role === 'admin' ? (
-                            `(${(user.email) || ''})`
-                        ) : null}
-                    </p>
-
+                    <>
+                        {role === 'gosc'
+                            ? 'Zalogowano jako: Gość'
+                            : user?.email?.split('@')[0] || ''}
+                    </>
                     <button onClick={handleLogOut} className="logout-btn">Wyloguj</button>
                 </div>
-
-                {/* Jeśli rola === admin, ukazuje się przycisk do panelu administratora */}
 
                 {role === 'admin' && (
                     <div className="admin-panel-btn">
@@ -98,7 +132,7 @@ const Layout = () => {
             <section id='main-app'>
                 <Outlet />
             </section>
-        </>
+        </section>
     );
 };
 

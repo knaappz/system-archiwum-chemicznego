@@ -1,17 +1,55 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './AdminPanel.css'
 
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);
+    const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({
         imie: "",
         nazwisko: "",
         email: "",
-        haslo: "",
-        rola: "pracownik",
+        rola: "",
     });
+
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
+    const [deleteEmail, setDeleteEmail] = useState(null);
+
+    const navigate = useNavigate();
+
+    const fetchUserData = async () => {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            navigate('/');
+            return;
+        }
+
+        try {
+            const res = await fetch("http://localhost:8080/api/me", {
+                headers: { "Authorization": `Bearer ${token}` },
+            });
+
+            if (!res.ok) throw new Error("Unauthorized");
+
+            const data = await res.json();
+            setUser(data);
+
+            if (data.rola !== 'admin') {
+                navigate('/app');
+            }
+        } catch (err) {
+            console.error(err);
+            navigate('/');
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
 
     useEffect(() => {
         fetchUsers();
@@ -21,7 +59,11 @@ const AdminPanel = () => {
         setLoading(true);
         setError(null);
         try {
-            const res = await fetch("http://localhost:8080/api/pracownicy");
+            const res = await fetch("http://localhost:8080/api/pracownicy", {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
             const data = await res.json();
             setUsers(data);
         } catch (err) {
@@ -37,47 +79,65 @@ const AdminPanel = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    const capitalize = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
     const handleAddUser = async (e) => {
         e.preventDefault();
         setError(null);
+        const capitalizedForm = {
+            ...formData,
+            imie: capitalize(formData.imie),
+            nazwisko: capitalize(formData.nazwisko)
+        };
         try {
             const res = await fetch("http://localhost:8080/api/pracownicy", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('authToken')}`
+                },
+                body: JSON.stringify(capitalizedForm),
             });
-
+            const data = await res.json();
             if (!res.ok) {
-                const errorData = await res.json();
-                throw new Error(errorData.msg || "Błąd podczas dodawania");
+                throw new Error(data.msg || "Błąd podczas dodawania");
             }
-
-            setFormData({
-                imie: "",
-                nazwisko: "",
-                email: "",
-                haslo: "",
-                rola: "pracownik",
-            });
-
-            fetchUsers(); // odśwież listę
+            setMessage(`Utworzono ${capitalizedForm.imie} ${capitalizedForm.nazwisko} | hasło tymczasowe to: ${data.wygenerowane_haslo}`);
+            fetchUsers();
         } catch (err) {
             setError(err.message);
         }
     };
 
-    const handleDeleteUser = async (id) => {
-        const confirm = window.confirm("Na pewno chcesz usunąć tego użytkownika?");
-        if (!confirm) return;
+    const confirmDelete = (id, email) => {
+        if (email === "ac.admin@gmail.com" || email === user?.email) {
+            alert("Nie można usunąć tego konta.");
+            return;
+        }
+        setDeleteId(id);
+        setDeleteEmail(email);
+        setShowModal(true);
+    };
 
+    const closeModal = () => {
+        setShowModal(false);
+        setDeleteId(null);
+        setDeleteEmail(null);
+    };
+
+    const handleDelete = async () => {
         try {
-            const res = await fetch(`http://localhost:8080/api/pracownicy/${id}`, {
+            const res = await fetch(`http://localhost:8080/api/pracownicy/${deleteId}`, {
                 method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('authToken')}`
+                }
             });
-
             if (!res.ok) throw new Error("Błąd podczas usuwania");
-
-            fetchUsers(); // odśwież listę
+            fetchUsers();
+            closeModal();
         } catch (err) {
             setError(err.message);
         }
@@ -85,57 +145,25 @@ const AdminPanel = () => {
 
     return (
         <section className="admin-panel">
-            <h2>Panel Administratora</h2>
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
+            <h1>Panel Administratora</h1>
+            {error && <p style={{ color: "red" }}>Błąd: {error}</p>}
             <div>
                 <h3>Dodaj nowego użytkownika</h3>
+                <div className="green-txt">{message}</div>
                 <form onSubmit={handleAddUser} style={{ marginTop: 20 }}>
-                    <input
-                        type="text"
-                        name="imie"
-                        placeholder="Imię"
-                        value={formData.imie}
-                        onChange={handleChange}
-                        required
-                    />
+                    <input type="text" name="imie" placeholder="Imię" value={formData.imie} onChange={handleChange} required />
                     <br />
-                    <input
-                        type="text"
-                        name="nazwisko"
-                        placeholder="Nazwisko"
-                        value={formData.nazwisko}
-                        onChange={handleChange}
-                        required
-                    />
+                    <input type="text" name="nazwisko" placeholder="Nazwisko" value={formData.nazwisko} onChange={handleChange} required />
                     <br />
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                    <br />
-                    <input
-                        type="password"
-                        name="haslo"
-                        placeholder="Hasło"
-                        value={formData.haslo}
-                        onChange={handleChange}
-                        required
-                    />
+                    <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
                     <br />
                     <select name="rola" value={formData.rola} onChange={handleChange} required>
+                        <option value="">Rola</option>
                         <option value="pracownik">Pracownik</option>
                         <option value="admin">Admin</option>
                     </select>
                     <br />
-                    <button className="" type="submit" style={{ marginTop: 10 }}>
-                        Dodaj użytkownika
-                    </button>
+                    <button type="submit">Dodaj użytkownika</button>
                 </form>
             </div>
 
@@ -145,39 +173,43 @@ const AdminPanel = () => {
                 <table border="1" cellPadding="5" style={{ borderCollapse: "collapse", width: "100%" }}>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th className="random-column">ID</th>
                             <th>Imię</th>
                             <th>Nazwisko</th>
                             <th>Email</th>
-                            <th>Rola</th>
-                            <th>Akcje</th>
+                            <th className="random-column">Rola</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody title="Kliknij aby usunąć...">
                         {users.length === 0 ? (
                             <tr>
-                                <td colSpan="6" style={{ textAlign: "center" }}>
-                                    Brak użytkowników
-                                </td>
+                                <td colSpan="5" style={{ textAlign: "center" }}>Brak użytkowników</td>
                             </tr>
                         ) : (
                             users.map(({ id, imie, nazwisko, email, rola }) => (
-                                <tr key={id}>
+                                <tr key={id} onClick={() => confirmDelete(id, email)}>
                                     <td>{id}</td>
                                     <td>{imie}</td>
                                     <td>{nazwisko}</td>
                                     <td>{email}</td>
                                     <td>{rola}</td>
-                                    <td>
-                                        <button onClick={() => handleDeleteUser(id)} style={{ color: "red" }}>
-                                            Usuń
-                                        </button>
-                                    </td>
                                 </tr>
                             ))
                         )}
                     </tbody>
                 </table>
+            )}
+
+            {showModal && (
+                <div className="action">
+                    <div className="dialog-delete">
+                        <p>Czy na pewno chcesz <b>usunąć</b> użytkownika: <br /> <i>{deleteEmail}</i>?</p>
+                        <div className="del-buttons-row">
+                            <button onClick={handleDelete}>Tak</button>
+                            <button onClick={closeModal}>Nie</button>
+                        </div>
+                    </div>
+                </div>
             )}
         </section>
     );
